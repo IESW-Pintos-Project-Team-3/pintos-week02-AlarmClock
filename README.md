@@ -23,8 +23,9 @@
 
 5. **핵심 함수 구현**
    - `thread_sleep(int64_t wakeup_tick)`: 현재 thread를 sleep_list에 추가하고 BLOCKED 상태로 전환.
-   - `thread_awake(int64_t current_tick)`: sleep_list를 순회하며, 깨어날 시간이 된 thread를 READY 상태로 전환.
+   - `thread_awake(int64_t current_tick)`: sleep_list를 순회하며, 깨어날 시간이 된 thread를 READY 상태로 전환. 
 
 6. **그 외**
    - 동기화 및 race condition 방지를 위해 적절히 인터럽트를 disable/enable 합니다.
    - 테스트 통과를 위해 우선순위 스케줄링 등 추가 구현이 필요할 수 있습니다.
+   - 개발 과정은 timer.c 수정과 thread.c 및 thread.h 관련 수정으로 구분 
