@@ -301,6 +301,30 @@ thread_exit (void)
   NOT_REACHED ();
 }
 
+/**/
+void
+thread_sleep(int64_t ticks)
+{
+  struct thread *cur = thread_current();
+  enum intr_level old_level;
+
+  ASSERT(!intr_context());
+  
+  old_level = intr_disable();
+  if(cur != idle_thread)
+  {
+    cur->tick_to_awake = ticks;
+    list_push_back(&blocked_list, &cur->elem);
+  }
+  update_next_tick_to_awake();
+
+  cur->status = THREAD_BLOCKED;
+
+  schedule();
+
+  intr_set_level(old_level);
+}
+
 /* Yields the CPU.  The current thread is not put to sleep and
    may be scheduled again immediately at the scheduler's whim. */
 void
