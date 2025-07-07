@@ -1,5 +1,5 @@
 # Pintos Project 2: Alarm clock-design and implementation
-
+# 구현 전 backup-version
 ## 구현 목표
 
 - Pintos의 thread가 timer_sleep()을 호출하면, 지정된 tick 동안 sleep 상태로 전환되고, 해당 시간이 지나면 자동으로 깨어나도록 구현합니다.
