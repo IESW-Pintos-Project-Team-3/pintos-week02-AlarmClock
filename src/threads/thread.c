@@ -584,7 +584,24 @@ allocate_tid (void)
 
   return tid;
 }
+
+void 
+update_next_tick_to_awake (void)
+{
+  if(list_empty(&blocked_list))
+    next_tick_to_awake = INT64_MAX;
+  else
+    {
+      struct thread *t = list_entry(list_front(&blocked_list), struct thread, elem);
+      next_tick_to_awake = t->tick_to_awake;
+    }
+}
 
+int64_t
+get_next_tick_to_awake (void)
+{
+  return list_empty(&blocked_list) ? INT64_MAX : next_tick_to_awake;
+}
 /* Offset of `stack' member within `struct thread'.
    Used by switch.S, which can't figure it out on its own. */
 uint32_t thread_stack_ofs = offsetof (struct thread, stack);
