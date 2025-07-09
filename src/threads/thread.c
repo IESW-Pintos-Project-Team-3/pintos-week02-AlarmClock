@@ -316,7 +316,7 @@ thread_sleep(int64_t ticks)
     cur->tick_to_awake = ticks;
     list_push_back(&blocked_list, &cur->elem);
   }
-  update_next_tick_to_awake(next_tick_to_awake);
+  update_next_tick_to_awake();
 
   cur->status = THREAD_BLOCKED;
 
@@ -353,7 +353,7 @@ thread_awake(int64_t ticks)
     }
   }
 
-  update_next_tick_to_awake(next_tick_to_awake);
+  update_next_tick_to_awake();
 }
 
 /* Yields the CPU.  The current thread is not put to sleep and
