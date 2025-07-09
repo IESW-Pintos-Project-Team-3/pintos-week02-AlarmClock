@@ -132,6 +132,51 @@ document loadusersymbols
         loadusersymbols tests/userprog/exec-multiple
 end
 
+define p_all
+    set $node = all_list.head.next
+    printf "{\n"
+    while($node != &all_list.tail)
+        # allelem's offset is 32 in structh thread and struct listelem's size is 8bytes
+        # pointer arithemetic is n times of datasize
+        # To get struct thread entry, need 4*8 miuns
+        set $thread = (struct thread*)($node-4)
+        printf "  tid = %d, name = %s, ", $thread->tid, $thread->name
+        p $thread->status
+        set $node = $node->next
+    end
+    printf "}\n"
+end
+
+define p_ready
+    set $node = ready_list.head.next
+    printf "{\n"
+    while($node != &ready_list.tail)
+        # elem's offset is 48 in structh thread and struct listelem's size is 8bytes
+        # pointer arithemetic is n times of datasize
+        # To get struct thread entry, need 6*8 miuns
+        set $thread = (struct thread*)($node-6)
+        printf "  tid = %d, name = %s, ", $thread->tid, $thread->name
+        p $thread->status
+        set $node = $node->next
+    end
+    printf "}\n"
+end
+
+define p_blocked
+    set $node = blocked_list.head.next
+    printf "{\n"
+    while($node != &blocked_list.tail)
+        # elem's offset is 48 in structh thread and struct listelem's size is 8bytes
+        # pointer arithemetic is n times of datasize
+        # To get struct thread entry, need 6*8 miuns
+        set $thread = (struct thread*)($node-6)
+        printf "  tid = %d, name = %s, ", $thread->tid, $thread->name
+        p $thread->status
+        set $node = $node->next
+    end
+    printf "}\n"
+end
+
 define debugpintos
     target remote localhost:1234
 end
