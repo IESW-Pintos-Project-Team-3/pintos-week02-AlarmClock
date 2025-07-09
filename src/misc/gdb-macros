@@ -132,6 +132,42 @@ document loadusersymbols
         loadusersymbols tests/userprog/exec-multiple
 end
 
+define p_all
+    set $node = all_list.head.next
+    printf "{\n"
+    while($node != &all_list.tail)
+        set $thread = (struct thread*)($node-4)
+        printf "  tid = %d, name = %s, ", $thread->tid, $thread->name
+        p $thread->status
+        set $node = $node->next
+    end
+    printf "}\n"
+end
+
+define p_ready
+    set $node = ready_list.head.next
+    printf "{\n"
+    while($node != &ready_list.tail)
+        set $thread = (struct thread*)($node-6)
+        printf "  tid = %d, name = %s, ", $thread->tid, $thread->name
+        p $thread->status
+        set $node = $node->next
+    end
+    printf "}\n"
+end
+
+define p_blocked
+    set $node = blocked_list.head.next
+    printf "{\n"
+    while($node != &blocked_list.tail)
+        set $thread = (struct thread*)($node-6)
+        printf "  tid = %d, name = %s, ", $thread->tid, $thread->name
+        p $thread->status
+        set $node = $node->next
+    end
+    printf "}\n"
+end
+
 define debugpintos
     target remote localhost:1234
 end
