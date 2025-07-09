@@ -645,15 +645,12 @@ update_next_tick_to_awake (void)
 {
   struct list_elem *e;
 
-  if(list_empty(&blocked_list)){
-    next_tick_to_awake = INT64_MAX;
-  }
-  else{
-      for(e = list_begin(&blocked_list); e != list_end(&blocked_list); e = list_next(e)){
-          struct thread *t = list_entry(e, struct thread, elem);
-          if(t->tick_to_awake < next_tick_to_awake)
-            next_tick_to_awake = t->tick_to_awake;
-      }
+  next_tick_to_awake = INT64_MAX;
+
+  for(e = list_begin(&blocked_list); e != list_end(&blocked_list); e = list_next(e)){
+    struct thread *t = list_entry(e, struct thread, elem);
+    if(t->tick_to_awake < next_tick_to_awake)
+      next_tick_to_awake = t->tick_to_awake;
   }
 }
 
